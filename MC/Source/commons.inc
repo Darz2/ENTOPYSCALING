@@ -2,7 +2,7 @@ C     Global Variables
 
       Integer Maxpart
 
-      Parameter (Maxpart = 500)
+      Parameter (Maxpart = 1000)
 
       Double Precision Alpha,Rcut,Rcutsq
 
