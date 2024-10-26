@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME='maxbin_2000.exe'
+NAME='a.out'
 
 touch ./COMPILE-debug
 touch ./COMPILE

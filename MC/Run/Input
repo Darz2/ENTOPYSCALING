@@ -1,4 +1,6 @@
 Ncycle   Ninit   Npart   Linit   Temp  Lambda
-1000000     10000     100    .true.   4   1.0d0
-Deltax   Box
-7.5       21.54434
+100000     1000     100    .true.   4   1.0d0
+Deltax   Box    
+ 5      15
+Alpha   Rcut
+1.0d0   2.0d0

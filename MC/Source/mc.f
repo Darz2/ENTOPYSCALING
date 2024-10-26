@@ -31,7 +31,7 @@ C     Monte Carlo In Nvt Ensemble
       Read(21,*)
       Read(21,*) Alpha,Rcut
       Close(21)
-
+      
       Beta = 1.0d0/Temp
       Rcutsq = Rcut*Rcut
 
@@ -50,13 +50,11 @@ C     Monte Carlo In Nvt Ensemble
           
       If(Temp.Le.0.0d0)          Stop "Error Temperature !!!"
       If(Deltax.Lt.0.0d0)        Stop "Error Deltax !!"
-
       If(Ncycle.Lt.100)          Stop "Minimal 100 Cycles !!!"
       If(Alpha.Lt.0.0d0)         Stop "Error Alpha less than 0 !!!"
       If(Alpha.Gt.1.0d0)         Stop "Error Alpha greater than 1 !!!"
-
-      If(Box.Lt.2.0d0*Rcut) Stop "Box Too Small !!"
-      If(Deltax.Lt.0.5d0*Box)    Stop "Error Deltax Too Large !!!"
+      If(Box.Lt.2.0d0*Rcut)      Stop "Box Too Small !!"
+      If(Deltax.Gt.0.5d0*Box)    Stop "Error Deltax Too Large !!!"
       
       If(Rcut.Lt.2.0d0) Then
          Write(6,*) 'Rcut is less than 2'
