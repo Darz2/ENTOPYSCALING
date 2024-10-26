@@ -1,0 +1,2 @@
+#!/bin/bash
+gfortran -C -g -ffixed-line-length-132 -static *.f

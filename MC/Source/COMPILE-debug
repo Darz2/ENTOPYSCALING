@@ -1,0 +1,3 @@
+#!/bin/bash
+gfortran -C -g -ffixed-line-length-132 -static *.f -o maxbin_2000.exe
+gfortran -O3 -ffixed-line-length-132 -static *.f -o maxbin_2000.exe
