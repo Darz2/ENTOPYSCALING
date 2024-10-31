@@ -57,10 +57,10 @@ def plot_ggr(gr):
                     color='r',
                     label='$X^{1}_{\infty}$')
     
-    # gr_2 = plt.plot(gr[0:,0], gr[0:,3],
-    #                 linestyle= 'solid',
-    #                 color='g',
-    #                 label='$X^{2}_{\infty}$')
+    gr_2 = plt.plot(gr[0:,0], gr[0:,3],
+                    linestyle= 'solid',
+                    color='g',
+                    label='$X^{2}_{\infty}$')
     
     # gr_3 = plt.plot(gr[0:,0], gr[0:,4],
     #                 linestyle= 'solid',
