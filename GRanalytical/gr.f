@@ -8,8 +8,11 @@
       Parameter (Delta = 0.01d0)
       
       Parameter (Twopi = 8.0d0*Datan(1.0d0))
-      Parameter (Gamma = 20.0d0)
+      Parameter (Gamma = 5.0d0)
       
+      Open(21, File='gr_5.dat')
+      Open(22, File='ggr_5.dat')
+
       Do I=1,Nbin
          R = (Dble(I)-0.5d0)*Delta
 
@@ -26,6 +29,9 @@
          Write(22,*) R, 1.0d0-G , Glng(G) + 1.0d0 - G
       Enddo
 
+      Close(21)
+      Close(22)
+      
       Stop
       End
 

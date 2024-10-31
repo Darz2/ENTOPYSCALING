@@ -2,24 +2,35 @@
       Implicit None
 
       Double Precision Delta
-      Integer Nbin
+      Integer Nbin, Gamma
 
-      Parameter (Delta = 0.01d0)
-      Parameter (Nbin  = 20000)
+      Parameter (Delta  = 0.01d0)
+      Parameter (Nbin   = 20000)
+      Parameter (Gamma  = 10)
+
+      character(len=30) :: filename
       
       Integer I,J
       
       Double Precision Gg(Nbin),Ggg(Nbin),Int1,Int2,Int3,Int4,X,F1,F2,F3
      $     ,Glng,R2
-
+      
+      write(filename,'(a,i0,a)') 'GR/gr_',Gamma,'.dat'
+      Open(21,File=filename)
 
       Do J=1,Nbin
+
          Read(21,*) X,Gg(J)
          
          Ggg(J) = Glng(Gg(J)) - Gg(J) + 1.0d0
 
          Gg(J)  = Gg(J) - 1.0d0
+
       Enddo
+
+      Close(21)
+      write(filename,'(a,i0,a)') 'integrategr_',Gamma,'.dat'
+      Open(22,File=filename)
 
       Do I=1,Nbin
 
@@ -61,6 +72,10 @@ C           Int1 is with no approximation; Int2 is the first order approximation
          Write(22,*) 1.0d0/(Dble(I)*Delta),Int1,Int2,Int3,Int4+R2,Int4
       Enddo
 
+      Close(22)
+      write(filename,'(a,i0,a)') 'integrateggr_',Gamma,'.dat'
+      Open(23,File='integrateggr_10.dat')
+
       Do I=1,Nbin
 
          Int1 = 0.0d0
@@ -91,6 +106,8 @@ C           Int1 is with no approximation; Int2 is the first order approximation
          Write(23,*) 1.0d0/(Dble(I)*Delta),Int1,Int2,Int3,Int4+R2,Int4
       Enddo
       
+      Close(23)
+
       Stop
       End
 
