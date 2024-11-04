@@ -53,9 +53,11 @@ epsilon = 1.0
 sigma = 1.0
 rc = 2
 alpha = 1
-Lambda = np.arange(0,1.001,0.01)
+Lambda = np.arange(0,1.001,0.001)
+highlight_lambda = [0.1, 0.3, 0.5, 0.7, 0.9]
 
-cmap = cm.get_cmap("viridis")
+# cmap = cm.get_cmap("viridis")
+cmap = cm.get_cmap("coolwarm")
 norm = mcolors.Normalize(vmin=min(Lambda), vmax=max(Lambda))  #
 
 with plt.style.context([ 'ieee']):
@@ -76,15 +78,61 @@ with plt.style.context([ 'ieee']):
             print(f"Large values detected for lambda={lambda_val}")
         color = cmap(norm(lambda_val))
         
-        plt.plot(r, V_WF, label=rf"{i}", color= color, linestyle='solid', linewidth=linewidth)
-        plt.axhline(0, color='black',linewidth=0.5)
-        # plt.axvline(2.0 * sigma, color='red', linestyle='--', label="Rcut")
-        
-        if i % 20 == 0:  # Adjust as per the Lambda resolution
-            midpoint_idx = len(r) // (2)
-            ax.plot(r, V_WF, color='k',  linestyle='solid', linewidth=1)
-            ax.text(r[midpoint_idx], V_WF[midpoint_idx] + 0.05, f"{lambda_val:.1f}", fontsize=legend_fontsize, color=color, ha='right',
-                bbox=dict(facecolor='white', edgecolor='none', pad=0.5, alpha=0.0))
+        if any(np.isclose(lambda_val, hl, atol=1e-4) for hl in highlight_lambda):
+            # midpoint_idx = len(r) // 2  # Index at the middle
+            
+            zero_crossings = np.where(np.abs(V_WF) < 1e-1)[0]
+            # print(zero_crossings[0])
+            
+            if lambda_val == 0.1: 
+                tab_value = 150
+                tab2 = 400
+            elif lambda_val == 0.3:
+                tab_value = 30
+                tab2 = 325
+            elif lambda_val == 0.5:
+                tab_value = 20
+                tab2 = 250
+            elif lambda_val == 0.7:
+                tab_value = 18
+                tab2 = 200
+            else:
+                tab_value = 10
+                tab2 = 200
+
+            point_1 = zero_crossings[0] - int(tab_value)
+            point_3 = zero_crossings[0] 
+            point_2 = zero_crossings[0] + int(tab_value)
+            
+            midpoint_1 = 3000
+            midpoint_3 = midpoint_1 + int(tab2/2)
+            print(midpoint_3)
+            midpoint_2 = midpoint_1 + int(tab2)
+            
+            ax.plot(r[:point_1], V_WF[:point_1], color='k', linestyle='solid', linewidth=1.5)
+            ax.plot(r[point_2:midpoint_1], V_WF[point_2:midpoint_1], color='k', linestyle='solid', linewidth=1.5)
+            # ax.plot(r[:midpoint_1], V_WF[:midpoint_1], color='k', linestyle='solid', linewidth=1.5)
+            ax.plot(r[midpoint_2:], V_WF[midpoint_2:], color='k', linestyle='solid', linewidth=1.5)
+            
+            # Add text at the break point
+            ax.text(
+                r[midpoint_3], V_WF[midpoint_3], f"{lambda_val:.1f}",
+                fontsize=legend_fontsize-3,
+                color='black',
+                ha='center',  # Center the text horizontally
+                va='center',  # Center the text vertically
+                bbox=dict(facecolor='white', edgecolor='none', pad=0.5, alpha=0.0)
+            )
+            ax.text(
+                r[point_3], V_WF[point_3], f"{lambda_val:.1f}",
+                fontsize=legend_fontsize-3,
+                color='black',
+                ha='center',  # Center the text horizontally
+                va='center',  # Center the text vertically
+                bbox=dict(facecolor='white', edgecolor='none', pad=0.5, alpha=0.0)
+            )
+        else:
+            ax.plot(r, V_WF, color=color, linestyle='solid', linewidth=linewidth)
         
     plt.xlabel("$r$", fontsize=label_fontsize)
     plt.ylabel("$U_{\mathrm{WF}}(r)$", fontsize=label_fontsize)

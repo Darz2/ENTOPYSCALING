@@ -54,8 +54,10 @@ sigma = 1.0
 rc = 2
 alpha = np.arange(0,1.01,0.01)
 Lambda = 0.5
+highlight_alpha = [0.1, 0.5, 0.9]
 
-cmap = cm.get_cmap("viridis")
+# cmap = cm.get_cmap("viridis")
+cmap = cm.get_cmap("coolwarm")
 norm = mcolors.Normalize(vmin=min(alpha), vmax=max(alpha))  #
 
 with plt.style.context([ 'ieee']):
@@ -74,9 +76,40 @@ with plt.style.context([ 'ieee']):
         V_WF = wf_potential(r, rc, alpha_val, Lambda)
         color = cmap(norm(alpha_val))
         
-        plt.plot(r, V_WF, label=rf"{i}", color= color, linestyle='solid', linewidth=linewidth)
-        plt.axhline(0, color='black',linewidth=0.5)
+        # plt.plot(r, V_WF, label=rf"{i}", color= color, linestyle='solid', linewidth=linewidth)
+        # plt.axhline(0, color='black',linewidth=0.5)
         # plt.axvline(2.0 * sigma, color='red', linestyle='--', label="Rcut")
+        
+        if any(np.isclose(alpha_val, ha, atol=1e-3) for ha in highlight_alpha):
+            # midpoint_idx = len(r) // 2  # Index at the middle
+            
+            zero_crossings = np.where(np.abs(V_WF) < 1e-1)[0]
+            # print(zero_crossings[0])
+            
+            midpoint_1 = zero_crossings[0] - 20
+            # print(midpoint_1)
+            midpoint_3 = zero_crossings[0] 
+            midpoint_2 = zero_crossings[0] + 20
+            
+            # midpoint_1 = 3000
+            # midpoint_3 = 3150
+            # midpoint_2 = 3300
+            
+            ax.plot(r[:midpoint_1], V_WF[:midpoint_1], color='k', linestyle='solid', linewidth=1.2)
+            ax.plot(r[midpoint_2:], V_WF[midpoint_2:], color='k', linestyle='solid', linewidth=1.2)
+            
+            # Add text at the break point
+            ax.text(
+                r[midpoint_3], V_WF[midpoint_3], f"{alpha_val:.1f}",
+                fontsize=legend_fontsize-2,
+                fontweight='bold',
+                color='black',
+                ha='center',  # Center the text horizontally
+                va='center',  # Center the text vertically
+                bbox=dict(facecolor='white', edgecolor='none', pad=0.5, alpha=0.0)
+            )
+        else:
+            ax.plot(r, V_WF, color=color, linestyle='solid', linewidth=linewidth)
         
     plt.xlabel("$r$", fontsize=label_fontsize)
     plt.ylabel("$U_{\mathrm{WF}}(r)$", fontsize=label_fontsize)
