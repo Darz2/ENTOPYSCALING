@@ -5,11 +5,13 @@ import os
 import numpy as np
 import scienceplots
 import matplotlib
+import skfda
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.ticker import ScalarFormatter, MultipleLocator
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+
 
 markers = ['o', 's', '^', 'D', 'h', '*', 'X' , "8"]
 plot_size = (4, 3)
@@ -42,67 +44,38 @@ break_threshold = 10 # for NIST data
 plt.rcParams['font.serif'] = graphic_font
 plt.rcParams['mathtext.fontset'] = math_font
 
-file_path   = "integrategr_2.dat"
-gr         = np.loadtxt(file_path, skiprows=1)
+file_path = "../integrateggr_2.dat"
+ggr       = np.loadtxt(file_path, skiprows=1)
 
-def plot_ggr(gr):
+def plot_ggr(ggr):
     
-    gr_0 = plt.plot(gr[0:,0], gr[0:,1],
+    ggr_0 = plt.plot(ggr[0:,0], ggr[0:,1],
                     linestyle= 'solid',
                     color='b',
                     label='$X (L)$')
     
-    gr_1 = plt.plot(gr[0:,0], gr[0:,2],
+    ggr_1 = plt.plot(ggr[0:,0], ggr[0:,2],
                     linestyle= 'solid',
                     color='r',
                     label='$X^{1}_{\infty}$')
     
-    gr_2 = plt.plot(gr[0:,0], gr[0:,3],
+    ggr_2 = plt.plot(ggr[0:,0], ggr[0:,3],
                     linestyle= 'solid',
                     color='g',
                     label='$X^{2}_{\infty}$')
     
-    gr_3 = plt.plot(gr[0:,0], gr[0:,4],
+    ggr_3 = plt.plot(ggr[0:,0], ggr[0:,4],
                     linestyle= 'solid',
                     color='magenta',
                     label='$X^{3}_{\infty}$')
     
-    gr_4 = plt.plot(gr[0:,0], gr[0:,5],
+    ggr_4 = plt.plot(ggr[0:,0], ggr[0:,5],
                     linestyle= 'solid',
                     color='cyan',
                     label='$X^{*} (L) $')
     
-    return gr_0, gr_1, gr_2, gr_3, gr_4
+    return ggr_0, ggr_1, ggr_2, ggr_3, ggr_4
 
-
-def plot_ggr_inset(gr):
-    
-    gr_0 = plt.plot(gr[0:,0], gr[0:,1],
-                    linestyle= 'solid',
-                    color='b',
-                    label='$X (L)$')
-    
-    gr_1 = plt.plot(gr[0:,0], gr[0:,2],
-                    linestyle= 'solid',
-                    color='r',
-                    label='$X^{1}_{\infty}$')
-    
-    gr_2 = plt.plot(gr[0:,0], gr[0:,3],
-                    linestyle= 'solid',
-                    color='g',
-                    label='$X^{2}_{\infty}$')
-    
-    # gr_3 = plt.plot(gr[0:,0], gr[0:,4],
-    #                 linestyle= 'solid',
-    #                 color='magenta',
-    #                 label='$X^{3}_{\infty}$')
-    
-    gr_4 = plt.plot(gr[0:,0], gr[0:,5],
-                    linestyle= 'solid',
-                    color='cyan',
-                    label='$X^{*} (L) $')
-    
-    return gr_0, gr_1
 
 with plt.style.context([ 'ieee']):
     plt.rcParams['font.family'] = graphic_font
@@ -114,13 +87,13 @@ with plt.style.context([ 'ieee']):
     ax.spines['left'].set_linewidth(spine_width)   
     ax.spines['right'].set_linewidth(spine_width)  
     
-    plot_ggr(gr)
+    plot_ggr(ggr)
     
     plt.xlabel(r'$1/R$', fontsize=label_fontsize)
-    plt.ylabel(r'$G_{\infty}$',fontsize=label_fontsize)
+    plt.ylabel(r'$X$',fontsize=label_fontsize)
     
     # plt.xlim(0, 0.5)
-    plt.xlim(0, 0.2)
+    plt.xlim(-0.05, 0.5)
     # ax.xaxis.set_major_locator(MultipleLocator(0.2))
     # ax.xaxis.set_minor_locator(MultipleLocator(10))
     
@@ -129,7 +102,7 @@ with plt.style.context([ 'ieee']):
     ax.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
                 bottom=True, top=True, left=True, right=True)
     
-    combined_legend = plt.legend(fontsize=legend_fontsize, loc=2, ncol=1,borderaxespad=1)
+    combined_legend = plt.legend(fontsize=legend_fontsize, loc=3, ncol=1,borderaxespad=1)
     #outline1 = combined_legend.get_frame().set_alpha(0)
     outline = combined_legend.get_frame()
     outline.set_linewidth(legend_boxwidth)
@@ -139,23 +112,23 @@ with plt.style.context([ 'ieee']):
                       bbox_to_anchor=(1.15, 0.0, 1, 1), 
                       bbox_transform=ax.transAxes, borderpad=1)
 
-    plot_ggr_inset(gr)
+    plot_ggr(ggr)
     
-    ax_inset.set_xlim(0, 0.09)  # X-axis limit for zoom
-    ax_inset.set_ylim(-2.2, -1.5)   # Y-axis limit for zoom
+    ax_inset.set_xlim(-0.05, 0.3)  # X-axis limit for zoom
+    ax_inset.set_ylim(7.5, 15)   # Y-axis limit for zoom
     
-    ax_inset.xaxis.set_major_locator(MultipleLocator(0.04))
-    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.02))
-    ax_inset.yaxis.set_major_locator(MultipleLocator(0.1))
-    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.05))
+    ax_inset.xaxis.set_major_locator(MultipleLocator(0.1))
+    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.05))
+    ax_inset.yaxis.set_major_locator(MultipleLocator(1.0))
+    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.5))
     
     ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
     ax_inset.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
                 bottom=True, top=True, left=True, right=True)
-    
+
     output_dir = os.getcwd()
-    file_name = f"integrate_gr.jpg"
+    file_name = f"integrate_ggr.jpg"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')

@@ -6,7 +6,7 @@
 
       Parameter (Delta  = 0.01d0)
       Parameter (Nbin   = 20000)
-      Parameter (Gamma  = 10)
+      Parameter (Gamma  = 2)
 
       character(len=30) :: filename
       
@@ -74,7 +74,7 @@ C           Int1 is with no approximation; Int2 is the first order approximation
 
       Close(22)
       write(filename,'(a,i0,a)') 'integrateggr_',Gamma,'.dat'
-      Open(23,File='integrateggr_10.dat')
+      Open(23,File=filename)
 
       Do I=1,Nbin
 

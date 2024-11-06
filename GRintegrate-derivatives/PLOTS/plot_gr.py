@@ -42,7 +42,7 @@ break_threshold = 10 # for NIST data
 plt.rcParams['font.serif'] = graphic_font
 plt.rcParams['mathtext.fontset'] = math_font
 
-file_path   = "integrategr_2.dat"
+file_path   = "../integrategr_2.dat"
 gr         = np.loadtxt(file_path, skiprows=1)
 
 def plot_ggr(gr):

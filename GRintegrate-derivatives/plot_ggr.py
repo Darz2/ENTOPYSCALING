@@ -43,8 +43,8 @@ break_threshold = 10 # for NIST data
 plt.rcParams['font.serif'] = graphic_font
 plt.rcParams['mathtext.fontset'] = math_font
 
-file_path = "integrateggr_10.dat"
-ggr       = np.loadtxt(file_path_1, skiprows=1)
+file_path = "integrateggr_2.dat"
+ggr       = np.loadtxt(file_path, skiprows=1)
 
 def plot_ggr(ggr):
     
@@ -113,13 +113,13 @@ with plt.style.context([ 'ieee']):
 
     plot_ggr(ggr)
     
-    ax_inset.set_xlim(0, 0.05)  # X-axis limit for zoom
-    ax_inset.set_ylim(39, 42)   # Y-axis limit for zoom
+    ax_inset.set_xlim(-0.05, 0.3)  # X-axis limit for zoom
+    ax_inset.set_ylim(7.5, 15)   # Y-axis limit for zoom
     
-    ax_inset.xaxis.set_major_locator(MultipleLocator(0.02))
-    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.01))
-    ax_inset.yaxis.set_major_locator(MultipleLocator(0.5))
-    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.25))
+    ax_inset.xaxis.set_major_locator(MultipleLocator(0.1))
+    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.05))
+    ax_inset.yaxis.set_major_locator(MultipleLocator(1.0))
+    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.5))
     
     ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
