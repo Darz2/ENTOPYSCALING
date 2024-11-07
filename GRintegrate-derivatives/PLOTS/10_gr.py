@@ -15,10 +15,10 @@ from scipy.interpolate import interp1d
 
 ###################### MAIN_settings for plotting ###################
 
-chi = 2
-file_path   = rf"../integrateggr_{chi}.dat"
-ggr          = np.loadtxt(file_path, skiprows=1)
-ext_name    = rf"ext_ggr_{chi}.dat" 
+chi = 10
+file_path   = rf"../integrategr_{chi}.dat"
+gr          = np.loadtxt(file_path, skiprows=1)
+ext_name    = rf"ext_gr_{chi}.dat" 
 
 ########################### Plot settings ############################
 
@@ -45,6 +45,7 @@ break_threshold = 10
 plt.rcParams['font.serif'] = graphic_font
 plt.rcParams['mathtext.fontset'] = math_font
 
+
 ########################### FUNCTIONS ############################
 
 # Extrapolating to x = 0
@@ -55,7 +56,7 @@ def extrapolate_to_zero(x,y):
     
     return x_ext, y_ext
 
-def plot_ggr(ggr):
+def plot_gr(gr):
     
     colors_indices_labels = [
         ('magenta', 4, '$X^{3}_{\infty}$'),
@@ -67,11 +68,11 @@ def plot_ggr(ggr):
     
     results = []
     
-    x_ext, _ = extrapolate_to_zero(ggr[0:, 0], ggr[0:, 2])
+    x_ext, _ = extrapolate_to_zero(gr[0:, 0], gr[0:, 2])
 
     for color, index, label in colors_indices_labels:
-        gr_line = plt.plot(ggr[0:, 0], ggr[0:, index], linestyle='solid', linewidth=linewidth, color=color, label=label)
-        _, y_ext = extrapolate_to_zero(ggr[0:, 0], ggr[0:, index])  # Only y_ext changes per index
+        gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color, label=label)
+        _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes per index
         gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
         results.append((gr_line, gr_ext_line))
 
@@ -79,9 +80,9 @@ def plot_ggr(ggr):
 
 
 
-def plot_ggr_inset(ggr,filename=ext_name):
+def plot_gr_inset(gr,filename=ext_name):
     
-    x_ext, _ = extrapolate_to_zero(ggr[0:, 0], ggr[0:, 2])
+    x_ext, _ = extrapolate_to_zero(gr[0:, 0], gr[0:, 2])
     y_data = []
     
     with open(filename, 'w') as file:
@@ -98,8 +99,8 @@ def plot_ggr_inset(ggr,filename=ext_name):
         results = []
         
         for color, index, label in colors_indices_labels:
-            gr_line = plt.plot(ggr[0:, 0], ggr[0:, index], linestyle='solid', linewidth=linewidth, color=color)
-            _, y_ext = extrapolate_to_zero(ggr[0:, 0], ggr[0:, index])  # Only y_ext changes
+            gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color)
+            _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes
             gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
             results.append((gr_line, gr_ext_line))
             y_data.append(y_ext)
@@ -126,6 +127,7 @@ def plot_ggr_inset(ggr,filename=ext_name):
 
 
 with plt.style.context([ 'ieee']):
+    
     plt.rcParams['font.family'] = graphic_font
     plt.rcParams['mathtext.fontset'] = math_font
     plt.rcParams['text.usetex'] = True
@@ -135,34 +137,34 @@ with plt.style.context([ 'ieee']):
     ax.spines['left'].set_linewidth(spine_width)   
     ax.spines['right'].set_linewidth(spine_width)  
     
-    plot_ggr(ggr)
+    plot_gr(gr)
     
-    plt.xlabel(r'$1/R$',fontsize=label_fontsize)
-    plt.ylabel(r'$X$',fontsize=label_fontsize)
+    plt.xlabel(r'$1/R$', fontsize=label_fontsize)
+    plt.ylabel(r'$G_{\infty}$',fontsize=label_fontsize)
     
     # plt.xlim(0, 0.5)
-    plt.xlim(-0.01, 0.5)
-    plt.ylim(1.5,15)
+    plt.xlim(-0.005, 0.22)
+    # plt.ylim(-35, 35)
+    
     ax.xaxis.set_major_locator(MultipleLocator(0.1))
     ax.xaxis.set_minor_locator(MultipleLocator(0.05))
-    ax.yaxis.set_major_locator(MultipleLocator(2))
-    ax.yaxis.set_minor_locator(MultipleLocator(1))
+    ax.yaxis.set_major_locator(MultipleLocator(200))
+    ax.yaxis.set_minor_locator(MultipleLocator(100))
     
     ax.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
     ax.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
                 bottom=True, top=True, left=True, right=True)
     
-    
     handles, labels = plt.gca().get_legend_handles_labels()
     
-    order = [0, 3, 4, 1, 2]  # order of lables
+    order = [3, 4, 1, 0, 2]  # order of lables
     
     # Combine all legend settings into one call
     combined_legend = plt.legend([handles[idx] for idx in order], 
                                  [labels[idx] for idx in order],
                                  fontsize=legend_fontsize, 
-                                 loc=3, 
+                                 loc=4, 
                                  ncol=1, 
                                  framealpha=1,
                                  borderaxespad=1)
@@ -176,36 +178,41 @@ with plt.style.context([ 'ieee']):
                       bbox_to_anchor=(1.15, 0.0, 1, 1), 
                       bbox_transform=ax.transAxes, borderpad=1)
 
-    plot_ggr_inset(ggr)
-    
-    # ax_inset.text(0.15, 0.75, '$R$ = $\infty$', transform=ax_inset.transAxes, 
-    #           fontsize=8, fontweight='bold',
-    #           ha='center', va='center')
+    plot_gr_inset(gr)
     
     ax_inset.set_xlabel(r'$1/R$',  fontsize=label_fontsize)
-    # ax_inset.set_ylabel(r'$X$',labelpad=0,fontsize=label_fontsize)
+    # ax_inset.set_ylabel(r'$G_{\infty}$',labelpad=-2, fontsize=label_fontsize)
     
-    ax_inset.set_xlim(0.00, 0.13)  
-    ax_inset.set_ylim(10.9, 11.7)   
-    
-    # ax_inset.set_xlim(-0.005, 0.05)  
-    # ax_inset.set_ylim(10.9, 11.7) 
-    
-    ax_inset.xaxis.set_major_locator(MultipleLocator(0.05))
-    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.025))
-    ax_inset.yaxis.set_major_locator(MultipleLocator(0.2))
-    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.1))
-    
-    ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
-                bottom=True, top=True, left=True, right=True)
-    ax_inset.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
-                bottom=True, top=True, left=True, right=True)
+    # # Configure ScalarFormatter
+    # formatter = ScalarFormatter(useMathText=True)
+    # formatter.set_scientific(True)
+    # formatter.set_powerlimits((-2, 2))
+    # formatter.set_useOffset(False)  # Disable offset if needed
 
+    # ax_inset.xaxis.set_major_formatter(formatter)
+    # ax_inset.yaxis.set_major_formatter(formatter)
+    
+    ax_inset.set_xlim(0, 0.03)
+    ax_inset.set_ylim(-2.265, -2.235)  
+    
+    # ax_inset.set_xlim(0, 0.006)
+    # ax_inset.set_ylim(-2.26, -2.24)
+    
+    ax_inset.xaxis.set_major_locator(MultipleLocator(0.01))
+    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.005))
+    ax_inset.yaxis.set_major_locator(MultipleLocator(0.01))
+    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.005))
+
+    ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
+                bottom=True, top=True, left=True, zorder=2, right=True)
+    ax_inset.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
+                bottom=True, top=True, left=True,zorder=2, right=True)
+    
     for line in ax_inset.get_lines():
         line.set_zorder(1)
-        
+    
     output_dir = os.getcwd()
-    file_name = rf"integrate_ggr_{chi}.jpg"
+    file_name = rf"integrate_gr_{chi}.jpg"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')

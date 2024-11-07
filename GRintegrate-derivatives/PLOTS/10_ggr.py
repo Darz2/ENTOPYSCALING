@@ -15,7 +15,7 @@ from scipy.interpolate import interp1d
 
 ###################### MAIN_settings for plotting ###################
 
-chi = 2
+chi = 10
 file_path   = rf"../integrateggr_{chi}.dat"
 ggr          = np.loadtxt(file_path, skiprows=1)
 ext_name    = rf"ext_ggr_{chi}.dat" 
@@ -142,11 +142,12 @@ with plt.style.context([ 'ieee']):
     
     # plt.xlim(0, 0.5)
     plt.xlim(-0.01, 0.5)
-    plt.ylim(1.5,15)
+    plt.ylim(23,48)
+    
     ax.xaxis.set_major_locator(MultipleLocator(0.1))
     ax.xaxis.set_minor_locator(MultipleLocator(0.05))
-    ax.yaxis.set_major_locator(MultipleLocator(2))
-    ax.yaxis.set_minor_locator(MultipleLocator(1))
+    ax.yaxis.set_major_locator(MultipleLocator(4))
+    ax.yaxis.set_minor_locator(MultipleLocator(2))
     
     ax.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
@@ -162,7 +163,7 @@ with plt.style.context([ 'ieee']):
     combined_legend = plt.legend([handles[idx] for idx in order], 
                                  [labels[idx] for idx in order],
                                  fontsize=legend_fontsize, 
-                                 loc=3, 
+                                 loc=1, 
                                  ncol=1, 
                                  framealpha=1,
                                  borderaxespad=1)
@@ -185,25 +186,25 @@ with plt.style.context([ 'ieee']):
     ax_inset.set_xlabel(r'$1/R$',  fontsize=label_fontsize)
     # ax_inset.set_ylabel(r'$X$',labelpad=0,fontsize=label_fontsize)
     
-    ax_inset.set_xlim(0.00, 0.13)  
-    ax_inset.set_ylim(10.9, 11.7)   
+    ax_inset.set_xlim(0.00, 0.07)  
+    ax_inset.set_ylim(38.7, 41.4)   
     
     # ax_inset.set_xlim(-0.005, 0.05)  
     # ax_inset.set_ylim(10.9, 11.7) 
     
-    ax_inset.xaxis.set_major_locator(MultipleLocator(0.05))
-    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.025))
-    ax_inset.yaxis.set_major_locator(MultipleLocator(0.2))
-    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.1))
+    ax_inset.xaxis.set_major_locator(MultipleLocator(0.02))
+    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.01))
+    ax_inset.yaxis.set_major_locator(MultipleLocator(1.0))
+    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.5))
     
     ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
     ax_inset.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
                 bottom=True, top=True, left=True, right=True)
-
+    
     for line in ax_inset.get_lines():
         line.set_zorder(1)
-        
+
     output_dir = os.getcwd()
     file_name = rf"integrate_ggr_{chi}.jpg"
     file_path = os.path.join(output_dir, file_name)

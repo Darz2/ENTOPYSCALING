@@ -15,7 +15,7 @@ from scipy.interpolate import interp1d
 
 ###################### MAIN_settings for plotting ###################
 
-chi = 2
+chi = 20
 file_path   = rf"../integrateggr_{chi}.dat"
 ggr          = np.loadtxt(file_path, skiprows=1)
 ext_name    = rf"ext_ggr_{chi}.dat" 
@@ -116,7 +116,7 @@ def plot_ggr_inset(ggr,filename=ext_name):
         
         dummy_line = plt.Line2D([], [], color='black', linewidth=linewidth, linestyle=(0, (2, 2)), label='$R \\to \\infty$')
         combined_legend = plt.legend([dummy_line], ['$R \\to \\infty$'],
-                                     fontsize=legend_fontsize, loc=4, ncol=1,
+                                     fontsize=legend_fontsize, loc=1, ncol=1,
                                      framealpha=1, borderaxespad=1)
         outline = combined_legend.get_frame()
         outline.set_linewidth(legend_boxwidth)
@@ -141,12 +141,12 @@ with plt.style.context([ 'ieee']):
     plt.ylabel(r'$X$',fontsize=label_fontsize)
     
     # plt.xlim(0, 0.5)
-    plt.xlim(-0.01, 0.5)
-    plt.ylim(1.5,15)
+    plt.xlim(-0.005, 0.3)
+    plt.ylim(41,89)
     ax.xaxis.set_major_locator(MultipleLocator(0.1))
     ax.xaxis.set_minor_locator(MultipleLocator(0.05))
-    ax.yaxis.set_major_locator(MultipleLocator(2))
-    ax.yaxis.set_minor_locator(MultipleLocator(1))
+    ax.yaxis.set_major_locator(MultipleLocator(10))
+    ax.yaxis.set_minor_locator(MultipleLocator(5))
     
     ax.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
@@ -162,7 +162,7 @@ with plt.style.context([ 'ieee']):
     combined_legend = plt.legend([handles[idx] for idx in order], 
                                  [labels[idx] for idx in order],
                                  fontsize=legend_fontsize, 
-                                 loc=3, 
+                                 loc=1, 
                                  ncol=1, 
                                  framealpha=1,
                                  borderaxespad=1)
@@ -185,16 +185,16 @@ with plt.style.context([ 'ieee']):
     ax_inset.set_xlabel(r'$1/R$',  fontsize=label_fontsize)
     # ax_inset.set_ylabel(r'$X$',labelpad=0,fontsize=label_fontsize)
     
-    ax_inset.set_xlim(0.00, 0.13)  
-    ax_inset.set_ylim(10.9, 11.7)   
+    ax_inset.set_xlim(0.00, 0.07)  
+    ax_inset.set_ylim(69, 79)   
     
     # ax_inset.set_xlim(-0.005, 0.05)  
     # ax_inset.set_ylim(10.9, 11.7) 
     
-    ax_inset.xaxis.set_major_locator(MultipleLocator(0.05))
-    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.025))
-    ax_inset.yaxis.set_major_locator(MultipleLocator(0.2))
-    ax_inset.yaxis.set_minor_locator(MultipleLocator(0.1))
+    ax_inset.xaxis.set_major_locator(MultipleLocator(0.02))
+    ax_inset.xaxis.set_minor_locator(MultipleLocator(0.01))
+    ax_inset.yaxis.set_major_locator(MultipleLocator(2))
+    ax_inset.yaxis.set_minor_locator(MultipleLocator(1))
     
     ax_inset.tick_params(axis='both', which='major', direction='in', width=tick_width, length=tick_length, labelsize=tick_labelsize,
                 bottom=True, top=True, left=True, right=True)
