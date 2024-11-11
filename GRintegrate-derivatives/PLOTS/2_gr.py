@@ -6,7 +6,6 @@ import os
 import numpy as np
 import scienceplots
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.ticker import ScalarFormatter, MultipleLocator
@@ -114,8 +113,8 @@ def plot_gr_inset(gr,filename=ext_name):
                 file.write(f"\t{y_data[j][i]}")
             file.write("\n")
         
-        dummy_line = plt.Line2D([], [], color='black', linewidth=linewidth, linestyle=(0, (2, 2)), label='$R \\to \\infty$')
-        combined_legend = plt.legend([dummy_line], ['$R \\to \\infty$'],
+        dummy_line = plt.Line2D([], [], color='black', linewidth=linewidth, linestyle=(0, (2, 2)), label='$L \\to \\infty$')
+        combined_legend = plt.legend([dummy_line], ['$L \\to \\infty$'],
                                      fontsize=legend_fontsize, loc=3, ncol=1,
                                      framealpha=1, borderaxespad=1)
         outline = combined_legend.get_frame()
@@ -137,7 +136,7 @@ with plt.style.context([ 'ieee']):
     
     plot_gr(gr)
     
-    plt.xlabel(r'$1/R$', fontsize=label_fontsize)
+    plt.xlabel(r'$1/L$', fontsize=label_fontsize)
     plt.ylabel(r'$G_{\infty}$',fontsize=label_fontsize)
     
     # plt.xlim(0, 0.5)
@@ -178,7 +177,7 @@ with plt.style.context([ 'ieee']):
 
     plot_gr_inset(gr)
     
-    ax_inset.set_xlabel(r'$1/R$',  fontsize=label_fontsize)
+    ax_inset.set_xlabel(r'$1/L$',  fontsize=label_fontsize)
     # ax_inset.set_ylabel(r'$G_{\infty}$',labelpad=-7, fontsize=label_fontsize)
     
     ax_inset.set_xlim(0, 0.07)  # X-axis limit for zoom
@@ -205,6 +204,12 @@ with plt.style.context([ 'ieee']):
         
     output_dir = os.getcwd()
     file_name = rf"integrate_gr_{chi}.jpg"
+    file_path = os.path.join(output_dir, file_name)
+    fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
+    fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
+    
+    output_dir = os.getcwd()
+    file_name = rf"integrate_gr_{chi}.pdf"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
