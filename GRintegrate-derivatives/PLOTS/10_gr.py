@@ -71,10 +71,18 @@ def plot_gr(gr):
 
     for color, index, label in colors_indices_labels:
         gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color, label=label)
-        _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes per index
-        gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
-        results.append((gr_line, gr_ext_line))
-
+        _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])
+        
+        results.append((gr_line))
+          
+        if index == 1:
+            gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+            results.append((gr_ext_line))
+            
+        if index == 2:
+                gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+                results.append((gr_ext_line))
+                
     return results
 
 
@@ -99,10 +107,19 @@ def plot_gr_inset(gr,filename=ext_name):
         
         for color, index, label in colors_indices_labels:
             gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color)
-            _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes
-            gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
-            results.append((gr_line, gr_ext_line))
+            _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])
             y_data.append(y_ext)
+            
+            if index == 1:
+                gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+                results.append((gr_ext_line))
+                
+            if index == 2:
+                gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+                results.append((gr_ext_line))
+            
+        results.append((gr_line))
+        
             
         # Header
         file.write("x_ext\t" + "\t".join([rf"{colors_indices_labels[i][2]}" for i in reorder_write]) + "\n")

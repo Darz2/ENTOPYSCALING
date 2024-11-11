@@ -146,3 +146,9 @@ with plt.style.context([ 'ieee']):
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
+
+    output_dir = os.getcwd()
+    file_name = f"Figure4b.pdf"
+    file_path = os.path.join(output_dir, file_name)
+    fig.savefig(file_path, format='pdf', dpi=resolution_value, bbox_inches='tight')
+    fig.savefig(fr"{file_name}", format='pdf', dpi=resolution_value, bbox_inches='tight')

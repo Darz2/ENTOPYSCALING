@@ -71,9 +71,13 @@ def plot_gr(gr):
 
     for color, index, label in colors_indices_labels:
         gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color, label=label)
-        _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes per index
-        gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
-        results.append((gr_line, gr_ext_line))
+        _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index]) 
+        
+        if index == 1:
+                gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+                results.append((gr_ext_line))
+                
+        results.append((gr_line))
 
     return results
 
@@ -99,15 +103,18 @@ def plot_gr_inset(gr,filename=ext_name):
         
         for color, index, label in colors_indices_labels:
             gr_line = plt.plot(gr[0:, 0], gr[0:, index], linestyle='solid', linewidth=linewidth, color=color)
-            _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])  # Only y_ext changes
-            gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
-            results.append((gr_line, gr_ext_line))
+            _, y_ext = extrapolate_to_zero(gr[0:, 0], gr[0:, index])
             y_data.append(y_ext)
             
-        # Header
+            if index == 1:
+                gr_ext_line = plt.plot(x_ext, y_ext, color=color, linewidth=linewidth, linestyle=(0, (2, 2)))
+                results.append((gr_ext_line))
+            
+        results.append((gr_line))  
+                          
+            
         file.write("x_ext\t" + "\t".join([rf"{colors_indices_labels[i][2]}" for i in reorder_write]) + "\n")
 
-        # Write x_ext values and reordered y_ext columns
         for i in range(len(x_ext)):
             file.write(f"{x_ext[i]}")
             for j in reorder_write:
