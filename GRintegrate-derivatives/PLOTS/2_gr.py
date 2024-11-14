@@ -209,7 +209,7 @@ with plt.style.context([ 'ieee']):
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
     
     output_dir = os.getcwd()
-    file_name = rf"integrate_gr_{chi}.pdf"
+    file_name = "Figure1a.pdf"
     file_path = os.path.join(output_dir, file_name)
     fig.savefig(file_path, dpi=resolution_value, bbox_inches='tight')
     fig.savefig(fr"{file_name}", dpi=resolution_value, bbox_inches='tight')
