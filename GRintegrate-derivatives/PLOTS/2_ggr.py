@@ -137,7 +137,7 @@ with plt.style.context([ 'ieee']):
     plot_ggr(ggr)
     
     plt.xlabel(r'$1/L$',fontsize=label_fontsize)
-    plt.ylabel(r'$X$',fontsize=label_fontsize)
+    plt.ylabel(r'$X_{\infty}$',fontsize=label_fontsize)
     
     # plt.xlim(0, 0.5)
     plt.xlim(-0.01, 0.5)

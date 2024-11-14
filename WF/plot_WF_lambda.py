@@ -135,7 +135,7 @@ with plt.style.context([ 'ieee']):
             ax.plot(r, V_WF, color=color, linestyle='solid', linewidth=linewidth)
         
     plt.xlabel("$r$", fontsize=label_fontsize)
-    plt.ylabel("$U_{\mathrm{WF}}(r)$", fontsize=label_fontsize)
+    plt.ylabel("$u_{\mathrm{WF}}(r)$", fontsize=label_fontsize)
     
     plt.xlim(0,2)
     plt.ylim(-1.1, 1.1)
