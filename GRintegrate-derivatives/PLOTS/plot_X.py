@@ -75,22 +75,20 @@ with plt.style.context([ 'ieee']):
     
     
     Plot_KB     = plt.plot(x, h(x, l),
-                    marker = 'none',
                     linestyle='solid',
                     linewidth= linewidth,
                     color='blue',
                     label=r"$q_{\rm KB}$")
     
     Plot_SEX    = plt.plot(x, qs(x, l),
-                    marker = 'none',
                     linestyle='solid',
                     linewidth= linewidth,
                     color='red',
                     label=r"$q_{\rm S}$")
     
-    Plot_KB_C   = plt.plot(x, u(x), linewidth=0.5, color="blue", linestyle='-', label=None)
+    Plot_KB_C   = plt.plot(x, u(x), linewidth=0.5, color="blue", linestyle='--', label=None)
     
-    Plot_SEX_C  = plt.plot(x, u(x)**2, linewidth=0.5, color="red", linestyle='-', label=None)
+    Plot_SEX_C  = plt.plot(x, u(x)**2, linewidth=0.5, color="red", linestyle='--', label=None)
     
     plot_Hline  = plt.axhline(0, color="black", linewidth=0.5, linestyle='-')
     
@@ -98,7 +96,7 @@ with plt.style.context([ 'ieee']):
     plt.ylabel(r'$q(r)$',fontsize=label_fontsize)
     
     plt.xlim(0,8)
-    plt.ylim(-1,1.5)
+    plt.ylim(-1.1,1.6)
     
     ax.xaxis.set_major_locator(MultipleLocator(1))
     ax.xaxis.set_minor_locator(MultipleLocator(0.5))
@@ -110,19 +108,8 @@ with plt.style.context([ 'ieee']):
     ax.tick_params(axis='both', which='minor', direction='in', width=minor_tick_width, length=minor_tick_length,
                 bottom=True, top=True, left=True, right=True)
     
-    handles, labels = plt.gca().get_legend_handles_labels()
-    
-    order = [0, 1, 2, 3, 4]  # order of lables
-    
-    # Combine all legend settings into one call
-    combined_legend = plt.legend([handles[idx] for idx in order], 
-                                 [labels[idx] for idx in order],
-                                 fontsize=legend_fontsize, 
-                                 loc=2, 
-                                 ncol=1, 
-                                 framealpha=1,
-                                 borderaxespad=1)
-    
+
+    combined_legend = plt.legend(fontsize=legend_fontsize, loc=1, ncol=1,borderaxespad=1)
     #outline1 = combined_legend.get_frame().set_alpha(0)
     outline = combined_legend.get_frame()
     outline.set_linewidth(legend_boxwidth)
